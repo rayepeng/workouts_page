@@ -18,7 +18,7 @@ const getBasePath = () => {
 const data: ISiteMetadataResult = {
   siteTitle: 'Workouts Map',
   siteUrl: 'https://rayepeng.net',
-  logo: 'https://rayepeng.net/favicon/favicon-32x32.png',
+  logo: 'https://avatars.githubusercontent.com/u/36496433?v=4',
   description: 'Personal site and blog',
   keywords: 'workouts, running, cycling, riding, roadtrip, hiking, swimming',
   navLinks: [
