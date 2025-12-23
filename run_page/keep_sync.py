@@ -51,6 +51,8 @@ TIMESTAMP_THRESHOLD_IN_DECISECOND = 3_600_000  # Threshold for target timestamp 
 
 # If your points need trans from gcj02 to wgs84 coordinate which use by Mapbox
 TRANS_GCJ02_TO_WGS84 = True
+MIN_POINT_NUM = 10
+MIN_DISTANCE = 200
 
 
 def login(session, mobile, password):
@@ -143,6 +145,10 @@ def parse_raw_data_to_nametuple(
             for i, p in enumerate(run_points_data_gpx):
                 p["latitude"] = run_points_data[i][0]
                 p["longitude"] = run_points_data[i][1]
+
+        if len(run_points_data) < MIN_POINT_NUM or run_data["distance"] < MIN_DISTANCE:
+            print(f"ID {keep_id} has too few points or distance is too short, ignore")
+            return
 
         for p in run_points_data_gpx:
             if "timestamp" not in p:
@@ -249,7 +255,8 @@ def get_all_keep_tracks(
                 track = parse_raw_data_to_nametuple(
                     run_data, old_gpx_ids, old_tcx_ids, with_gpx, with_tcx
                 )
-                tracks.append(track)
+                if track:
+                    tracks.append(track)
             except Exception as e:
                 print(f"Something wrong paring keep id {run}: " + str(e))
     return tracks
